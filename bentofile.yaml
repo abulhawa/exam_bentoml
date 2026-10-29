@@ -1,0 +1,20 @@
+service: "src.service:AdmissionAPI"
+description: "Admissions prediction service"
+
+labels:
+  owner: "Ali Abul Hawa"
+  project: "admissions_prediction"
+
+include:
+  - "src/"
+
+models:
+  - admission_lr:latest
+
+python:
+  packages:
+    - bentoml==1.4.40
+    - scikit-learn==1.9.1
+    - numpy==2.5.4
+    - pydantic==2.14.2
+    - pyjwt==2.15.1

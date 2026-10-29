@@ -1,28 +1,55 @@
-# Examen BentoML
+# Admission Prediction API
 
-Ce repertoire contient l'architecture basique afin de rendre l'évaluation pour l'examen BentoML.
+Run the following commands in order from the directory containing
+`admission_prediction_service.tar` and `tests/`.
+Docker must be installed and running. Python 3.12 or newer must be available.
 
-Vous êtes libres d'ajouter d'autres dossiers ou fichiers si vous jugez utile de le faire.
+## 1. Load the Docker image
 
-Voici comment est construit le dossier de rendu de l'examen:
-
-```bash       
-├── examen_bentoml          
-│   ├── data       
-│   │   ├── processed      
-│   │   └── raw           
-│   ├── models      
-│   ├── src       
-│   └── README.md
+```bash
+docker load -i admission_prediction_service.tar
 ```
 
-Afin de pouvoir commencer le projet vous devez suivre les étapes suivantes:
+## 2. Start the service
 
-- Forker le projet sur votre compte github
+The tests connect to port 3001 on your machine. The container listens on port 3000.
 
-- Cloner le projet sur votre machine
+```bash
+docker run -d --name admission-prediction -p 127.0.0.1:3001:3000 admission_prediction_service:latest
+```
 
-- Récuperer le jeu de données à partir du lien suivant: [Lien de téléchargement]( https://datascientest.s3-eu-west-1.amazonaws.com/examen_bentoml/admissions.csv)
+## 3. Create a test environment and install dependencies
 
+These commands are intended for Linux, WSL, or macOS:
 
-Bon travail!
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+```
+
+## 4. Run the tests
+
+Keep the Docker container running while executing the tests.
+
+```bash
+pytest -v tests/
+```
+
+## 5. Stop and remove the container
+
+After testing:
+
+```bash
+docker stop admission-prediction
+docker rm admission-prediction
+```
+
+## Submission contents
+
+The final submission archive contains:
+
+- `admission_prediction_service.tar`
+- `requirements.txt`
+- `README.md`
+- `tests/`
